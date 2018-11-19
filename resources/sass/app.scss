@@ -1,0 +1,90 @@
+// Variables
+@import "./_variables.scss";
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body,
+html {
+    height: 100%;
+    font-family: 'Lato';
+}
+
+body {
+    padding-bottom: 1rem;
+    width: 100%; //line-height: 1.7;
+}
+
+
+/*
+ * NAVBAR SCSS
+ */
+
+.navbar {
+    height: 5rem;
+}
+
+.navbar-selector {
+    z-index: 1000;
+}
+
+.navbar-container {
+    margin-bottom: .5rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.navbar-main-item {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.search-button {
+    width: 3rem;
+}
+
+.is-rounded {
+    border-radius: 5px;
+}
+
+.is-round {
+    border-radius: 50%;
+}
+
+.has-lr-margins {
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.has-text-v-aligned {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-title {
+    font-weight: 300;
+    font-size: 32px;
+    text-align: center;
+}
+
+.card-footer-item {
+    cursor: pointer;
+}
+
+/**
+ * NOTIFICATION CSS
+ */
+.v-fade-right-enter-active,
+.v-fade-right-leave-active,
+.v-fade-right-move {
+    transition: all 1s;
+}
+
+.v-fade-right-enter,
+.v-fade-right-leave-to {
+    opacity: 0;
+    transform: translateX(-500px) scale(0.2);
+}

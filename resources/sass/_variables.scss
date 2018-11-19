@@ -1,0 +1,70 @@
+// Import fonts
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+// Body
+$body-bg: #f5f8fa;
+
+// Set your brand colors
+$main: #008489;
+$main-dark: #005458;
+$main-light: #00B1B3;
+$notification-red: #FD5C63;
+$azure:#007AFF;
+$light-grey: #636b6f;
+$blackish:#484848;
+$white:#fff;
+
+
+/*******START UPDATE BULMA VARS*******/
+// Update Bulma's global variables
+$family-primary: "Lato",
+sans-serif;
+$primary: $main-light;
+$link: $blackish;
+
+// Update some of Bulma's component variables
+//$body-background-color: $beige-lighter;
+$control-border-width: 2px;
+
+// Borders
+$laravel-border-color: darken($body-bg, 10%);
+$list-group-border: $laravel-border-color;
+$navbar-default-border: $laravel-border-color;
+$panel-default-border: $laravel-border-color;
+$panel-inner-border: $laravel-border-color;
+
+// Typography
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$font-size-base: 14px;
+$line-height-base: 1.6;
+$text-color: $blackish;
+
+// Navbar
+$navbar-default-bg: $white;
+
+// Inputs
+$input-shadow: 0 1px 1px 2px lighten(rgba($blackish, 0.1), 30%),
+0 0 0 1px lighten(rgba($blackish, 0.3), 50%);
+$input-focus-box-shadow-size: 0 0.075em 0.1em 0.075em;
+$input-focus-box-shadow-color: lighten(rgba($blackish, .75), 40%);
+$input-icon-color: $blackish;
+$input-icon-active-color: $blackish;
+$input-border-color: $white;
+$input-hover-border-color: $white;
+$input-focus-border-color: $white;
+$input-color-placeholder: $blackish;
+
+
+// Panels
+$panel-default-heading-bg: $white;
+
+/*******END UPDATE BULMA VARS*******/
+
+//Modal
+$modal-z: 100;
+$modal-content-width: 800px;
+
+// Import Bulma after so that the vars above overwrite the Bulma vars
+// Bulma
+@import "node_modules/bulma/bulma.sass";
+// Bulma Extensions
+@import "node_modules/bulma-extensions/src/sass/index.sass";
