@@ -4,7 +4,12 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Listing::class, function (Faker $faker) {
     return [
-        'address' => $faker->address,
+        'street_address' => $faker->streetAddress,
+        'city' => $faker->city,
+        'state' => $faker->stateAbbr,
+        'zip_code' => $faker->postcode,
+        'lng' => $faker->longitude,
+        'lat' => $faker->latitude,
         'apt_num' => $faker->randomDigit,
         'date_available' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'monthly_price' => $faker->numberBetween($min = 500, $max = 3000),
