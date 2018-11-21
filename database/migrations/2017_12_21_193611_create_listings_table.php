@@ -23,7 +23,7 @@ class CreateListingsTable extends Migration
             $table->decimal('lng', 10, 7);
             $table->decimal('lat', 10, 7);
             $table->string('apt_num')->nullable();
-            $table->date('date_available');
+            $table->timestamp('date_available');
             $table->unsignedInteger('monthly_price');
             $table->text('description');
             $table->decimal('num_beds', 3, 1);
