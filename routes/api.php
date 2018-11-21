@@ -14,14 +14,7 @@ use Illuminate\Http\Request;
  */
 
 /**
- *  User Info Routes
- */
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('users/{id}', 'UsersController@show')->middleware('isSelf');
-});
-
-/**
- * Authentication Routes
+ * Authentication Endpoints
  */
 Route::prefix('auth')->group(function () {
     Route::post('register', 'AuthController@register');
@@ -32,5 +25,14 @@ Route::prefix('auth')->group(function () {
         Route::post('logout', 'AuthController@logout');
     });
 });
+
+/**
+ * Search Endpoint
+ */
+Route::get('search', 'SearchController@search');
+
+/**
+ * Listing Endpoints
+ */
 
 
