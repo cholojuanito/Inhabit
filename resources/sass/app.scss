@@ -17,6 +17,25 @@ body {
     width: 100%; //line-height: 1.7;
 }
 
+/* Google Places dropdown that contains autocomplete*/
+.pac-container {
+    padding: 8px 12px;
+}
+
+.pac-item {
+    border: none;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    height: 40px;
+}
+
+.pac-icon {}
+
+.pac-container:after {
+    background-image: none !important;
+    height: 0px;
+}
+
 
 /*
  * NAVBAR SCSS
