@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 import router from './routes';
+import store from './stores/index';
 
 Vue.component('navbar', require('./components/layout/Navbar.vue'));
 Vue.component('single-image-upload', require('./components/uploads/SingleImageUpload.vue'));
@@ -9,4 +10,5 @@ Vue.component('single-image-upload', require('./components/uploads/SingleImageUp
 const app = new Vue({
     el: '#app',
     router,
+    store
 });
