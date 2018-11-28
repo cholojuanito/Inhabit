@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Upload extends Model
 {
+
+    /**
+     * The attributes that can be mass assigned
+     */
+    protected $fillable = ['filename', 'mime', 'path', 'size'];
+
     /**
      * Don't auto-apply mass assignment protection.
      *

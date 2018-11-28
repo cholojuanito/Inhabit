@@ -16,7 +16,10 @@ class CreateUploadsTable extends Migration
         Schema::create('uploads', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('listing_id');
-            $table->string('file_path');
+            $table->string('filename');
+            $table->string('mime');
+            $table->string('path');
+            $table->integer('size');
             $table->timestamps();
         });
     }

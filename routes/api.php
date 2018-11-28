@@ -62,7 +62,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/upload', 'UploadsController@getAll');
     Route::post('/upload', 'UploadsController@store');
-    Route::delete('/upload/{upload}', 'UploadsController@destroy');
+    Route::delete('/upload/delete', 'UploadsController@destroy');
 });
 
 
