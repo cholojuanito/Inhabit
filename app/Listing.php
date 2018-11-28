@@ -66,9 +66,15 @@ class Listing extends Model
     public function toSearchableArray()
     {
         $record = $this->toArray();
+
+        $record['_geoloc'] = [
+            'lat' => $record['lat'],
+            'lng' => $record['lng'],
+        ];
+
         $record['created_at_unix'] = $this->created_at->timestamp;
         $record['date_available_unix'] = strtotime($this->date_available);
-        unset($record['updated_at']);
+        unset($record['updated_at'], $record['lat'], $record['lng']);
 
         return $record;
     }

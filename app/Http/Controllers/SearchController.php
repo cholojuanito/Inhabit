@@ -9,24 +9,41 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $query;
+        $query = '';
         $numericFilters = [];
         $facetFilters = [];
+        $radius = 85000;  // Value is in meters. It defaults to about 50 miles
+        $lat = null;
+        $lng = null;
 
-        if ($request->has('q')) {
+        if ($request->has('query')) {
             if ($request->has('numFilters')) {
                 $numericFilters = request('numFilters');
             }
             if ($request->has('facetFilters')) {
                 $facetFilters = request('facetFilters');
             }
-            $query = request('q');
+            if ($request->has('location')) {
+                $lat = request('lat');
+                $lng = request('lng');
+            }
+            $query = request('query');
 
             try {
                 // Add the filters to the search so they are applied
-                $listings = Listing::search($query, function ($algoliaIdx, $q, $searchParams) use ($numericFilters, $facetFilters) {
+                $listings = Listing::search($query, function ($algoliaIdx, $q, $searchParams) use ($lat, $lng, $radius, $numericFilters, $facetFilters) {
+
                     $searchParams['numericFilters'] = $numericFilters;
                     $searchParams['facetFilters'] = $facetFilters;
+
+                    // Search by 
+                    if ($lat !== null && $lng !== null) {
+                        $location = [
+                            'aroundLatLng' => (float)$lat . ',' . (float)$lng,
+                            'aroundRadius' => $radius,
+                        ];
+                        $searchParams = array_merge($searchParams, $location);
+                    }
 
                     return $algoliaIdx->search($q, $searchParams);
                 })->paginate(10);

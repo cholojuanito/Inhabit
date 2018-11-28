@@ -12,5 +12,5 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .extract(['vue', 'lodash', 'axios', 'jquery', 'moment', 'vue-router'])
+    .extract(['vue', 'lodash', 'axios', 'jquery', 'moment', 'vue-router', 'vuex', 'vue-axios'])
     .sass('resources/sass/app.scss', 'public/css');

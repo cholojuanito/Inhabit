@@ -16,7 +16,7 @@ class ListingsController extends Controller
      */
     public function _construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth');
     }
 
     /**
@@ -26,13 +26,6 @@ class ListingsController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $listings = Listing::all(); //Eventually paginate these
-
-        return view('browse')->with([
-            'user' => $user,
-            'listings' => $listings,
-        ]);
     }
 
     /**
@@ -62,6 +55,7 @@ class ListingsController extends Controller
             'zip_code' => 'required',
             'apt_num' => 'sometimes|string|nullable',
             'date_available' => 'required|date',
+            'rental_type' => 'required',
             'monthly_price' => 'required|numeric|min:0',
             'description' => 'required|string',
             'num_beds' => 'required|between:0.0,20.0',
@@ -79,6 +73,7 @@ class ListingsController extends Controller
             'lat' => request('lat'),
             'apt_num' => request('apt_num'),
             'date_available' => request('date_available'),
+            'rental_type' => request('rental_type'),
             'monthly_price' => request('monthly_price'),
             'description' => request('description'),
             'num_beds' => request('num_beds'),
@@ -91,7 +86,8 @@ class ListingsController extends Controller
         return response(
             [
                 'status' => 'success',
-                'message' => 'Listing was created!'
+                'message' => 'Listing was created!',
+                'data' => $listing
             ],
             200
         );

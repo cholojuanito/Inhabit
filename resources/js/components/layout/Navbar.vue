@@ -34,6 +34,9 @@
                 <router-link class="navbar-item is-tab" to="/register" v-if="!$auth.check()">
                     <p>Sign up</p>
                 </router-link>
+                 <router-link class="navbar-item is-tab" to="/createListing" v-if="$auth.check()">
+                    Post a listing
+                </router-link>
                 <span class="navbar-item is-tab" v-if="$auth.check()">
                     <a href="/">Favorites</a>
                 </span>
