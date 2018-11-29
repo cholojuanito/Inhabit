@@ -1,57 +1,55 @@
 <template>
-        <button :class="classes" :data-tooltip="toolTipText" @click="toggle">
-            <span class="icon is-medium">
-                <i class="fa fa-heart"></i>
+            <span  :class="classes" :data-tooltip="toolTipText" @click="toggle">
+                <i class="fas fa-heart fa-2x"></i>
             </span>
-            <span v-text="count"></span>
-        </button>
 </template>
 
 <script>
 export default {
-    props: ['favorite'],
+  props: ["favorite"],
 
-    data() {
-        return {
-            count: this.favorite.numFavorites,
-            active: this.favorite.isFavorited
-        }
+  data() {
+    return {
+      active: this.favorite.isFavorited,
+      favoriteType: "listing"
+    };
+  },
+
+  computed: {
+    classes() {
+      return [
+        "icon",
+        "is-large",
+        this.active ? "has-text-danger" : "has-text-grey-light",
+        "tooltip"
+      ];
     },
 
-    computed: {
-        classes() {
-            return [
-                'button',
-                this.active ? 'is-primary' : 'is-light',
-                'tooltip',
-            ];
-        },
-
-        url() {
-            return '/';
-        },
-
-        toolTipText() {
-            return this.active ? 'Remove from favorites' : 'Add to favorites';
-        },
+    url() {
+      return "/favorite";
     },
 
-    methods: {
-        toggle() {
-            this.active ? this.destroy() : this.create();
-        },
-
-        create() {
-            this.active = true;
-            this.count++;
-        },
-
-        destroy() {
-            this.active = false;
-            this.count--;
-        },
+    toolTipText() {
+      return this.active ? "Remove from favorites" : "Add to favorites";
     }
-}
+  },
+
+  methods: {
+    toggle() {
+      this.active ? this.destroy() : this.create();
+    },
+
+    create() {
+      this.active = true;
+    },
+
+    destroy() {
+      this.active = false;
+    }
+  }
+};
 </script>
 
+<style lang="scss">
+</style>
 
