@@ -62,7 +62,14 @@ export default {
   },
   methods: {
     search() {
-      this.$store.dispatch("listings/searchListings", this.form);
+      this.$store
+        .dispatch("listings/searchListings", this.form)
+        .then(res => {
+          this.$router.push("browse");
+        })
+        .catch(errors => {
+          console.log(errors);
+        });
     },
     onSuccess() {},
     onFailure(errorData) {
