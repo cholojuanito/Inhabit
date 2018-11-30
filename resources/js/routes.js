@@ -24,19 +24,21 @@ let routes = [{
         },
     },
     {
-        path: '/create-listing',
+        path: '/createListing',
+        name: 'create',
+        component: require('./components/CreateListing'),
         meta: {
             auth: true
         },
     },
     {
         path: '/user-listings',
+        name: 'userListings',
         meta: {
             auth: {
                 redirect: {
                     name: 'login'
                 },
-                forbiddenRedirect: '/403'
             },
         },
     },

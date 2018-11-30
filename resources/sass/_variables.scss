@@ -19,6 +19,7 @@ $white:#fff;
 $family-primary: "Lato",
 sans-serif;
 $primary: $main-light;
+$danger: $notification-red;
 $link: $blackish;
 
 // Update some of Bulma's component variables
@@ -67,4 +68,9 @@ $modal-content-width: 800px;
 // Bulma
 @import "node_modules/bulma/bulma.sass";
 // Bulma Extensions
-@import "node_modules/bulma-extensions/src/sass/index.sass";
+@import "node_modules/bulma-extensions/bulma-steps/src/sass/index.sass";
+@import "node_modules/bulma-extensions/bulma-carousel/src/sass/index.sass";
+@import "node_modules/bulma-extensions/bulma-calendar/src/sass/index.sass";
+@import "node_modules/bulma-extensions/bulma-tooltip/src/sass/index.sass";
+// Notyjs CSS for notifications
+@import 'node_modules/vuejs-noty/src/styles.less';

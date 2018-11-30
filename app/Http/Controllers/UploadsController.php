@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use App\Upload;
+use App\Listing;
 use Image;
 
 class UploadsController extends Controller
 {
+
     /**
      * Get all uploads for the listing.
      *
@@ -36,21 +40,42 @@ class UploadsController extends Controller
         $user = Auth::user();
         $listingID = $request->input('listing_id');
         $requestFiles = $request->files;
-        $fileNum = 0; // Will only be 0 or 1 since the files come chunked
+
+        // The files come in chunked so we need the double for loop to iterate them all
         foreach ($requestFiles as $files) {
             foreach ($files as $file) {
-                $filePath = $user->id . time() . $fileNum . '.' . $file->getClientOriginalExtension();
-                Image::make($file)->save(public_path('uploads\\listings\\' . $filePath)); // Change the back slashes for unix machines
+                $filename = $file->getClientOriginalName();
+                $path = hash('sha256', time());
 
-                $upload = Upload::forceCreate([
-                    'listing_id' => $listingID,
-                    'file_path' => $filePath
-                ]);
-                $uploads[] = $upload;
-                $fileNum++;
+                if (Storage::disk('public')->put($path . '/' . $filename, File::get($file))) {
+                    $input['filename'] = $filename;
+                    $input['mime'] = $file->getClientMimeType();
+                    $input['path'] = $path;
+                    $input['size'] = $file->getClientSize();
+                    $input['listing_id'] = $listingID;
+
+                    $upload = Upload::forceCreate($input);
+                    $uploads[] = $upload;
+                } else {
+                    return response()->json(
+                        [
+                            'status' => 'error',
+                            'message' => 'An error occurred while uploading file ' . $filename,
+                        ],
+                        500
+                    );
+                }
             }
         }
-        return $uploads;
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Successfully uploaded the file(s)',
+                'data' => $uploads
+            ],
+            200
+        );
     }
 
     /**
@@ -68,11 +93,43 @@ class UploadsController extends Controller
     /**
      * Remove the upload from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        return ['success' => true];
+        $fileName = request('file_name');
+        $fileSize = request('file_size');
+        $listingId = request('listing_id');
+
+        // Delete the first file that matches the critieron. I can't use id's because of how the JS is setup
+        $upload = Listing::find($listingId)->uploads()->where([
+            ['filename', '=', $fileName],
+            ['size', '=', $fileSize]
+        ])->first();
+
+        try {
+            // Delete the physical file
+            Storage::disk('public')->delete($upload->path . '/' . $upload->filename);
+            // Delete the db record
+            $upload->delete();
+
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => 'An error occurred while trying to delete the file'
+                ],
+                500
+            );
+        }
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Photo was successfully deleted.'
+            ],
+            200
+        );
     }
 }

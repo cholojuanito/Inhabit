@@ -18,14 +18,14 @@ class DatabaseSeeder extends Seeder
         $this->call(AmenityTableSeeder::class);
 
         // Populate the users and make one listing for each user
-        factory(User::class, 50)->create()->each(
+        factory(User::class, 100)->create()->each(
             function ($u) {
                 $u->listings()->save(factory(Listing::class)->make());
             }
         );
 
         // Populate conversations
-        factory(Conversation::class, 80)->create();
+        factory(Conversation::class, 150)->create();
 
         $convos = Conversation::all();
         $users = User::all();

@@ -3,17 +3,32 @@
     <div class="hero-body">
       <div class="container has-text-centered">
         <div class="column is-6 is-offset-3">
-          <h1 class="title">
+          <p class="title">
             Browse our listings
-          </h1>
-          <h2 class="subtitle">
+          </p>
+          <p class="subtitle">
              Make finding your next apartment easier than ever.
-          </h2>
+          </p>
           <div class="box">
             <div class="level">
               <div class="level-item">
                   <search-bar></search-bar>
                 </div>
+            </div>
+          </div>
+          
+          <div class="content">
+            <p class="subtitle">Need to sell your apartment?</p>
+            <div class="level">
+              <div class="level-item">
+                  <div class="field">
+                      <div class="control">
+                          <router-link to="/createListing" class="button is-danger">
+                              Post Your Apartment
+                          </router-link>
+                      </div>
+                  </div>
+              </div>
             </div>
           </div>
           

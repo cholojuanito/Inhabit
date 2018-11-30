@@ -16,7 +16,7 @@ class ListingsController extends Controller
      */
     public function _construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth');
     }
 
     /**
@@ -26,13 +26,6 @@ class ListingsController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $listings = Listing::all(); //Eventually paginate these
-
-        return view('browse')->with([
-            'user' => $user,
-            'listings' => $listings,
-        ]);
     }
 
     /**
@@ -56,9 +49,13 @@ class ListingsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'address' => 'required|string|max:255',
+            'street_address' => 'required|string|max:255',
+            'city' => 'required|string',
+            'state' => 'required',
+            'zip_code' => 'required',
             'apt_num' => 'sometimes|string|nullable',
             'date_available' => 'required|date',
+            'rental_type' => 'required',
             'monthly_price' => 'required|numeric|min:0',
             'description' => 'required|string',
             'num_beds' => 'required|between:0.0,20.0',
@@ -68,14 +65,17 @@ class ListingsController extends Controller
 
         $listing = Listing::create([
             'user_id' => auth()->id(),
-            'address' => request('street_address'),
+            'street_address' => request('street_address'),
+            'city' => request('city'),
+            'state' => request('state'),
+            'zip_code' => request('zip_code'),
+            'lng' => request('lng'),
+            'lat' => request('lat'),
             'apt_num' => request('apt_num'),
             'date_available' => request('date_available'),
+            'rental_type' => request('rental_type'),
             'monthly_price' => request('monthly_price'),
             'description' => request('description'),
-            // 'contact_name'      => request('contact_name'),
-            // 'contact_phone'     => request('contact_phone'),
-            // 'contact_email'     => request('contact_email'),
             'num_beds' => request('num_beds'),
             'num_baths' => request('num_baths'),
             'square_ft' => request('square_ft')
@@ -83,7 +83,14 @@ class ListingsController extends Controller
 
         $user = Auth::user();
 
-        return redirect('/user/' . $user->id . '/listings');
+        return response(
+            [
+                'status' => 'success',
+                'message' => 'Listing was created!',
+                'data' => $listing
+            ],
+            200
+        );
     }
 
     /**
@@ -119,14 +126,14 @@ class ListingsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'address' => 'required|string|max:255',
+            'street_address' => 'required|string|max:255',
+            'city' => 'required|string',
+            'state' => 'required',
+            'zip_code' => 'required',
             'apt_num' => 'sometimes|string|nullable',
             'date_available' => 'required|date',
             'monthly_price' => 'required|numeric|min:0',
             'description' => 'required|string',
-            // 'contact_name'      => 'required|string|max:255',
-            // 'contact_phone'     => 'required|phone:US',
-            // 'contact_email'     => 'required|email|max:255',
             'num_beds' => 'required|between:0.0,20.0',
             'num_baths' => 'required|between:0.0,20.0',
             'square_ft' => 'required|numeric|min:0'

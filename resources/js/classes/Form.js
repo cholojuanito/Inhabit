@@ -28,6 +28,15 @@ class Form {
 
         return data;
     }
+
+    /**
+     * Send a GET request with some parameters to the given URL 
+     * 
+     * @param {string} url 
+     */
+    get(url) {
+        return this.submit('get', url);
+    }
     /**
      * Send a POST request to the given URL.
      * .
@@ -67,17 +76,33 @@ class Form {
      * @param {string} url
      */
     submit(requestType, url) {
-        return new Promise((resolve, reject) => {
-            axios[requestType](url, this.data())
-                .then(response => {
-                    this.onSuccess(response.data);
-                    resolve(response.data);
-                })
-                .catch(error => {
-                    this.onFail(error.response.data);
-                    reject(error.response.data);
-                });
-        });
+        if (requestType === 'get') {
+            return new Promise((resolve, reject) => {
+                axios[requestType](url, {
+                        params: this.data(),
+                    })
+                    .then(response => {
+                        this.onSuccess(response.data);
+                        resolve(response.data);
+                    })
+                    .catch(error => {
+                        this.onFail(error.response.data);
+                        reject(error.response.data);
+                    });
+            });
+        } else {
+            return new Promise((resolve, reject) => {
+                axios[requestType](url, this.data())
+                    .then(response => {
+                        this.onSuccess(response.data);
+                        resolve(response.data);
+                    })
+                    .catch(error => {
+                        this.onFail(error.response.data);
+                        reject(error.response.data);
+                    });
+            });
+        }
     }
     /**
      * Handle a successful form submission.

@@ -26,6 +26,7 @@ import Form from './classes/Form.js';
 import VueRouter from 'vue-router';
 import VueAuth from '@websanova/vue-auth';
 import VueAxios from 'vue-axios';
+import VueNoty from 'vuejs-noty'
 import auth from './auth'
 import router from './routes';
 import chunk from 'chunk';
@@ -47,6 +48,14 @@ Vue.router = router;
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuth, auth);
+Vue.use(VueNoty, {
+    theme: 'sunset',
+    timeout: 3000,
+    progressBar: true,
+    sounds: {
+        volume: 0.5
+    },
+});
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -136,5 +145,14 @@ const statesArray = [
     'Wyoming - WY',
 ];
 
+const rentalTypes = [
+    'Studio',
+    'Apartment',
+    'Single Family Home',
+    'Condo',
+    'Townhome'
+];
+
+window.RENTAL_TYPES = rentalTypes;
 window.STATES = statesArray;
 window.CSRF = document.querySelector('meta[name="csrf-token"]').getAttribute('content');

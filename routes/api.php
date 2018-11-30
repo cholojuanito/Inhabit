@@ -14,23 +14,55 @@ use Illuminate\Http\Request;
  */
 
 /**
- *  User Info Routes
- */
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('users/{id}', 'UsersController@show')->middleware('isSelf');
-});
-
-/**
- * Authentication Routes
+ * Authentication Endpoints
  */
 Route::prefix('auth')->group(function () {
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::get('refresh', 'AuthController@refresh');
+    // User needs to have a token to use these routes
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('user', 'AuthController@user');
         Route::post('logout', 'AuthController@logout');
     });
+});
+
+/**
+ * Search Endpoint
+ */
+Route::get('search', 'SearchController@search');
+
+/**
+ * Listing Resource Routes
+ * User must be logged in to access them
+ */
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/user-listings', 'ListingsController@getUserListings');
+    Route::post('/listing/create', 'ListingsController@store');
+    Route::patch('/listing/{listing}', 'ListingsController@update');
+    Route::patch('/listing/{listing}/favorite', 'ListingsController@toggleFavorite');
+    Route::delete('/listing/{listing}', 'ListingsController@destroy');
+});
+/**
+ * Communications Routes
+ * User must be logged in to access them
+ */
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/conversations', 'CommunicationsController@getAllConversations')->name('convo.getAll');
+    Route::get('/conversation/messages', 'CommunicationsController@getAllMessages')->name('message.getAll');
+    Route::post('/conversation/create', 'CommunicationsController@createConversation')->name('convo.create');
+    Route::post('/conversation/add-participants', 'CommunicationsController@addConversationParticipants')->name('convo.add-participants');
+    Route::post('/message/send', 'CommunicationsController@sendMessage')->name('message.send');
+
+});
+/**
+ * Upload Resource Routes
+ * Once again the User must be logged in to use them
+ */
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/upload', 'UploadsController@getAll');
+    Route::post('/upload', 'UploadsController@store');
+    Route::delete('/upload/delete', 'UploadsController@destroy');
 });
 
 
