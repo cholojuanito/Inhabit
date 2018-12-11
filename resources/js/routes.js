@@ -17,28 +17,42 @@ let routes = [{
         },
     },
     {
-        path: '/listing-info',
+        path: '/listing-info/:id',
         component: require('./views/ListingInfo'),
         meta: {
             auth: undefined,
         },
     },
     {
-        path: '/createListing',
+        path: '/create-listing',
         name: 'create',
         component: require('./components/CreateListing'),
         meta: {
-            auth: true
+            auth: true,
+            redirect: {
+                name: 'login'
+            },
         },
     },
     {
         path: '/user-listings',
-        name: 'userListings',
+        name: 'user-listings',
+        component: require('./components/UsersListings'),
         meta: {
-            auth: {
-                redirect: {
-                    name: 'login'
-                },
+            auth: true,
+            redirect: {
+                name: 'login'
+            },
+        },
+    },
+    {
+        path: '/favorite-listings',
+        name: 'favorites',
+        component: require('./components/FavoriteListings'),
+        meta: {
+            auth: true,
+            redirect: {
+                name: 'login'
             },
         },
     },
