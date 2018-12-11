@@ -33,6 +33,7 @@ import chunk from 'chunk';
 
 window.Form = Form;
 // Make the base url 'api/'
+// CHANGE THIS TO 'http://tannerdavisr.com/api' IN PRODUCTION!
 window.axios.defaults.baseURL = process.env.MIX_APP_URL + '/api';
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -50,7 +51,7 @@ Vue.use(VueAxios, axios);
 Vue.use(VueAuth, auth);
 Vue.use(VueNoty, {
     theme: 'sunset',
-    timeout: 3000,
+    timeout: 2000,
     progressBar: true,
     sounds: {
         volume: 0.5
