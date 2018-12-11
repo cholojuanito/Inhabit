@@ -5,7 +5,11 @@
 				<div class="favorite-container" v-if="this.showFavorite === true">
 					<favorite :favorite="favorite"></favorite>
 				</div>
-				<img class="image image-size" :src="urls[0]" alt="Photo of the apartment">
+				<img
+					class="image image-size"
+					:src="urls[0] || '/storage/default.jpg'"
+					alt="Photo of the apartment"
+				>
 			</div>
 
 			<div class="has-top-padding">
