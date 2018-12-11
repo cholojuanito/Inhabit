@@ -1,7 +1,9 @@
 let getters = {
-    listings: state => state.listings,
+    currentListings: state => state.listings,
     favorites: state => state.favoriteListings,
-    pagination: state => state.pagination
+    usersListings: state => state.favoriteListings,
+    pagination: state => state.pagination,
+    currentQ: state => state.currQuery,
 }
 
 export default getters;
