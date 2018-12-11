@@ -10,7 +10,7 @@ $factory->define(App\Listing::class, function (Faker $faker) {
     return [
         'street_address' => $faker->streetAddress,
         'city' => $faker->city,
-        'state' => $faker->stateAbbr,
+        'state' => 'UT', //$faker->stateAbbr,
         'zip_code' => $faker->postcode,
         'lng' => $faker->longitude($min = 109, $max = 112),
         'lat' => $faker->latitude($min = 38, $max = 41),
