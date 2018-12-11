@@ -79,6 +79,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Fetch all the favorited listings that the user has
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites()
+    {
+        return $this->belongsToMany(Listing::class, 'favorites', 'user_id', 'favorited_id');
+    }
+
+    /**
      * A user can belong to/have many conversations.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
