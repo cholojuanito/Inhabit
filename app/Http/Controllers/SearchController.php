@@ -36,7 +36,7 @@ class SearchController extends Controller
                     $searchParams['numericFilters'] = $numericFilters;
                     $searchParams['facetFilters'] = $facetFilters;
 
-                    // Search by 
+                    // Search by latitude and longitude
                     if ($lat !== null && $lng !== null) {
                         $location = [
                             'aroundLatLng' => (float)$lat . ',' . (float)$lng,
@@ -46,12 +46,20 @@ class SearchController extends Controller
                     }
 
                     return $algoliaIdx->search($q, $searchParams);
-                })->paginate(10);
+                })->paginate(50);
             } catch (\AlgoliaSearch\AlgoliaException $e) {
                 return response()->json(
                     [
                         'status' => 'error',
                         'message' => 'Issue occured while searching'
+                    ],
+                    500
+                );
+            } catch (Exception $e) {
+                return response()->json(
+                    [
+                        'status' => 'error',
+                        'message' => 'Issue occured in general'
                     ],
                     500
                 );
