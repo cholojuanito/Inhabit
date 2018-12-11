@@ -106,10 +106,6 @@ export default {
         },
         rememberMe: true,
         fetchUser: true,
-        redirect: {
-          name: "browse",
-          params: { successRegistrationRedirect: true }
-        },
         success: function() {
           this.onSuccess();
         },

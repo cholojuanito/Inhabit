@@ -29,7 +29,8 @@
             <router-view></router-view>
         </div>
     </div>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_PLACES_KEY')}}&libraries=places&callback=initMap" async defer></script>
+    <!-- &callback=initMap TODO ADD THIS TO THE END OF THE API IF YOU HAVE A MAP TO SHOW -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_PLACES_KEY')}}&libraries=places" async defer></script>
 </body>
 
 @include('layouts.footer')

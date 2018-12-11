@@ -29,6 +29,36 @@ let mutations = {
     },
     SET_PREV_QUERY(state, prevQuery) {
         state.prevQuery = prevQuery
+    },
+    SET_FAVORITE_LISTINGS(state, favorites) {
+        state.favoriteListings = favorites;
+    },
+    ADD_FAVORITE_LISTING(state, listingId) {
+        let listingIdMap = state.listings.map(listing => {
+            return listing.id;
+        });
+
+        let favListingIdMap = state.favoriteListings.map(l => {
+            return l.id;
+        });
+
+        let favIdx = favListingIdMap.indexOf(listingId);
+        let idx = listingIdMap.indexOf(listingId);
+
+        //Check if the apartment is already in the favorites array
+        if (favIdx === -1) {
+            state.favoriteListings.push(state.listings[idx]);
+        }
+    },
+    REMOVE_FAVORITE_LISTING(state, listingId) {
+        let listingMap = state.favoriteListings.map(listing => {
+            return listing.id;
+        });
+        let idx = listingMap.indexOf(listingId);
+
+        if (idx !== -1) {
+            state.favoriteListings.splice(idx, 1);
+        }
     }
 }
 

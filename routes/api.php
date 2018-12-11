@@ -31,6 +31,7 @@ Route::prefix('auth')->group(function () {
  * Search Endpoint
  */
 Route::get('search', 'SearchController@search');
+Route::get('listing', 'ListingsController@all');
 
 /**
  * Listing Resource Routes
@@ -38,10 +39,12 @@ Route::get('search', 'SearchController@search');
  */
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/user-listings', 'ListingsController@getUserListings');
+    Route::get('/user-favorites', 'ListingsController@getUserFavorites');
     Route::post('/listing/create', 'ListingsController@store');
-    Route::patch('/listing/{listing}', 'ListingsController@update');
-    Route::patch('/listing/{listing}/favorite', 'ListingsController@toggleFavorite');
-    Route::delete('/listing/{listing}', 'ListingsController@destroy');
+    Route::patch('/listing', 'ListingsController@update');
+    Route::post('/listing/favorite', 'ListingsController@favorite');
+    Route::post('/listing/unfavorite', 'ListingsController@unfavorite');
+    Route::delete('/listing', 'ListingsController@destroy');
 });
 /**
  * Communications Routes

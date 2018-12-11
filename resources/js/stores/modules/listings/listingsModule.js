@@ -8,8 +8,8 @@ let state = {
     userListings: [],
     favoriteListings: [],
     pagination: {},
-    currQuery: {},
-    prevQuery: {}
+    currQuery: null,
+    prevQuery: null
 }
 
 let listingsModule = {

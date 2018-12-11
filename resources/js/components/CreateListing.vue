@@ -254,11 +254,11 @@
                                     <p class="help is-italizied">Max number of files is 20. Max filesize is 10mb.</p>
                                         <vue-dropzone 
                                             id="dropzone" 
-                                            ref="dropzone"
+                                            
                                             :options="dropzoneOptions"
+                                            :destroyDropzone="false"
                                             @vdropzone-removed-file="removePhoto"
                                             @vdropzone-sending-multiple="addPhotos"
-                                            @vdropzone-complete-multiple="uploadsComplete"  
                                         ></vue-dropzone>
                                         <!-- @vdropzone-sending="addPhotos" -->
                                 </div>
@@ -442,20 +442,20 @@ export default {
       formData.append("listing_id", this.listingId);
     },
     removePhoto(file, error, xhr) {
-      axios
-        .delete("/upload/delete", {
-          data: {
-            file_name: file.name,
-            file_size: file.size,
-            listing_id: this.listingId
-          }
-        })
-        .then(res => {
-          this.showSuccess("File successfully removed");
-        })
-        .catch(errors => {
-          this.showError("An error occurred while trying to remove a file");
-        });
+      //   axios
+      //     .delete("/upload/delete", {
+      //       data: {
+      //         file_name: file.name,
+      //         file_size: file.size,
+      //         listing_id: this.listingId
+      //       }
+      //     })
+      //     .then(res => {
+      //       this.showSuccess("File successfully removed");
+      //     })
+      //     .catch(errors => {
+      //       this.showError("An error occurred while trying to remove a file");
+      //     });
     },
     onSubmit() {
       this.$store

@@ -1,9 +1,13 @@
 /**
  * All the urls that are use to access the API
  */
-const searchURL = "/search";
-const createURL = "/listing/create"
-const favoriteURL = "/listing/id/favorite"
+const searchURL = '/search';
+const listingURL = '/listing';
+const userListingsURL = '/user-listings';
+const favoriteListingURL = '/user-favorites';
+const createURL = '/listing/create'
+const favoriteURL = '/listing/favorite'
+const unfavoriteURL = '/listing/unfavorite'
 
 /**
  * Actions are the gateway to the mutation methods
@@ -53,6 +57,89 @@ let actions = {
                 })
         });
     },
+
+    getInitialListings({
+        commit
+    }) {
+        return new Promise((resolve, reject) => {
+            axios.get('/listing')
+                .then((response) => {
+                    let resData = response.data.data;
+                    let pagination = {};
+                    pagination.baseURL = resData['path'];
+                    pagination.currentPage = resData['current_page'];
+                    pagination.lastPage = resData['last_page'];
+                    pagination.firstPageURL = resData['first_page_url'];
+                    pagination.lastPageURL = resData['last_page_url'];
+                    pagination.nextPageURL = resData['next_page_url'];
+                    pagination.prevPageURL = resData['prev_page_url'];
+                    pagination.upTo = resData['to'];
+                    pagination.from = resData['from'];
+                    pagination.numPerPage = resData['per_page'];
+                    pagination.totalHits = resData['total'];
+
+
+                    // Update the state
+                    commit('SET_LISTINGS', resData.data);
+                    commit('SET_PAGINATION', pagination);
+                    resolve(resData);
+                })
+                .catch((errors) => {
+                    reject(errors)
+                })
+        });
+    },
+
+    getUserListings({
+        commit
+    }, userId) {
+        return new Promise((resolve, reject) => {
+            axios.get(userListingsURL, {
+                    params: {
+                        user_id: userId
+                    }
+                })
+                .then(response => {
+                    let resData = response.data;
+
+                    commit('SET_USER_LISTING', resData.data)
+                    resolve(resData);
+                })
+                .catch(
+                    errors => {
+                        console.log(errors);
+                        reject(errors);
+                    }
+                )
+        });
+
+    },
+
+    getFavoriteListings({
+        commit
+    }, userId) {
+        return new Promise((resolve, reject) => {
+            axios.get(favoriteListingURL, {
+                    params: {
+                        user_id: userId
+                    }
+                })
+                .then(response => {
+                    let resData = response.data;
+
+                    commit('SET_FAVORITE_LISTINGS', resData.data)
+                    resolve(resData);
+                })
+                .catch(
+                    errors => {
+                        console.log(errors);
+                        reject(errors);
+                    }
+                )
+        });
+
+    },
+
     createListing({
         commit
     }, formObj) {
@@ -68,13 +155,41 @@ let actions = {
                 })
         });
     },
-    toogleFavorite({
+
+    favorite({
         commit
     }, listingId) {
         return new Promise((resolve, reject) => {
+            axios.post(favoriteURL, {
+                    listing_id: listingId
+                })
+                .then(response => {
+                    commit('ADD_FAVORITE_LISTING', listingId);
+                    resolve(response);
+                })
+                .catch(errors => {
 
+                    reject(errors);
+                })
         });
-    }
+    },
+    unfavorite({
+        commit
+    }, listingId) {
+        return new Promise((resolve, reject) => {
+            axios.post(unfavoriteURL, {
+                    listing_id: listingId
+                })
+                .then(response => {
+                    commit('REMOVE_FAVORITE_LISTING', listingId);
+                    resolve(response);
+                })
+                .catch(errors => {
+                    reject(errors);
+                })
+        });
+    },
+
 }
 
 export default actions;

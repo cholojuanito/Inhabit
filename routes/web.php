@@ -26,7 +26,7 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAccountsController@handleProv
 /**
  * Registration confirmation
  */
-Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index')->name('register.confirm');
+//Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index')->name('register.confirm');
 
 /**
  * User Resource Routes

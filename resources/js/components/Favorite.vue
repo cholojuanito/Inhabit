@@ -1,52 +1,75 @@
 <template>
-            <span  :class="classes" :data-tooltip="toolTipText" @click="toggle">
-                <i class="fas fa-heart fa-2x"></i>
-            </span>
+	<span :class="classes" :data-tooltip="toolTipText" @click="toggle">
+		<i class="fas fa-heart fa-2x"></i>
+	</span>
 </template>
 
 <script>
 export default {
-  props: ["favorite"],
+	props: ["favorite"],
 
-  data() {
-    return {
-      active: this.favorite.isFavorited,
-      favoriteType: "listing"
-    };
-  },
+	data() {
+		return {
+			favoriteType: "listing"
+		};
+	},
 
-  computed: {
-    classes() {
-      return [
-        "icon",
-        "is-large",
-        this.active ? "has-text-danger" : "has-text-grey-light",
-        "tooltip"
-      ];
-    },
+	computed: {
+		classes() {
+			return [
+				"icon",
+				"is-large",
+				this.favorite.isFavorited
+					? "has-text-danger"
+					: "has-text-grey-light",
+				"tooltip"
+			];
+		},
 
-    url() {
-      return "/favorite";
-    },
+		toolTipText() {
+			return this.favorite.isFavorited
+				? "Remove from favorites"
+				: "Add to favorites";
+		}
+	},
 
-    toolTipText() {
-      return this.active ? "Remove from favorites" : "Add to favorites";
-    }
-  },
+	methods: {
+		toggle() {
+			this.favorite.isFavorited ? this.destroy() : this.create();
+		},
 
-  methods: {
-    toggle() {
-      this.active ? this.destroy() : this.create();
-    },
+		create() {
+			this.$store
+				.dispatch("listings/favorite", this.favorite.listingId)
+				.then(data => {
+					this.$noty.success("Favorited");
+					this.favorite.isFavorited = true;
+				})
+				.catch(error => {
+					if (error.response.status === 401) {
+						this.$noty.error("You must be logged in to favorite");
+					} else {
+						this.$noty.error("Unable to favorite listing");
+					}
+				});
+		},
 
-    create() {
-      this.active = true;
-    },
-
-    destroy() {
-      this.active = false;
-    }
-  }
+		destroy() {
+			this.$store
+				.dispatch("listings/unfavorite", this.favorite.listingId)
+				.then(data => {
+					this.$noty.success("Unfavorited");
+					this.favorite.isFavorited = false;
+				})
+				.catch(error => {
+					if (error.response.status === 401) {
+						this.$noty.error("You must logged in to unfavorite");
+					} else {
+						this.$noty.error("Unable to unfavorite");
+					}
+				});
+		}
+	}
 };
 </script>
 
